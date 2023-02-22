@@ -73,7 +73,7 @@ class TestClass:
         # Test that the text contains "Scar Original"
         helper_tests.boolean_assert(expected_h1 in h1.text, f"Expected {expected_h1} in text for h1, got: {h1.text}")
 
-        expected_url = "Datorer - Köp online här"
+        expected_title = "Datorer - Köp online här"
 
         # Test that url now contains products
-        helper_tests.boolean_assert(expected_url in driver.title, f"Expected {expected_url} in title, got: {driver.title}")
+        helper_tests.boolean_assert(expected_title in driver.title, f"Expected {expected_title} in title, got: {driver.title}")
