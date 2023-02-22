@@ -35,7 +35,6 @@ class TestClass:
     def test_1(self, get_inet_site):
         driver = get_inet_site
 
-        # Test that iceberry is part of the url
         helper_tests.boolean_assert("inet" in driver.current_url, f"Expected inet in url, got: {driver.current_url}")
     
     def test_advanced_2(self, get_inet_site):
