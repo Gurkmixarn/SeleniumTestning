@@ -26,6 +26,9 @@ class TestClass:
 
         driver.get(INET_SITE)
 
+        cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[5]/div/button[1]")
+        cookies_button.click()
+
         yield driver
 
         print('RUN TEST TEARDOWN')
