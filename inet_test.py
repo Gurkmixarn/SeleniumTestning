@@ -8,6 +8,7 @@ import helper_tests as ht
 INET_SITE = "https://www.inet.se/"
 
 #datorer_xpath_side = '//*[@id="react-root"]/div[3]/div/div/div[2]/div[2]/div[3]/div/a[1]/div'
+side_xpath_incomplete = '//span[normalize-space()="'
 datorer_xpath_side = '//span[normalize-space()="Datorer"]'
 number_in_cart = "#cart-button > div > svg > text"
 
@@ -86,5 +87,31 @@ class TestClass:
         ht.click_by_xpath(driver,'//button[normalize-space()="Köp"]')
         current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
         ht.boolean_assert(current_items_in_cart == "1",f"Expected 1 item in cart, got:{current_items_in_cart}")
+
+    def test_5_all_side_links_product_categories(self,get_inet_site):
+        driver = get_inet_site
+        product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","Extern Lagring","Hem/Fritid/Hälsa","Kablar/Adaptrar","Ljud/Bild","Mobiltelefon","Nätverk","Presentkort","Programvara","Skrivare/Scanner","Smarta Hem","Spel/Konsol/VR","Surfplatta"]
+        for category in product_types:
+            complete_xpath = side_xpath_incomplete + category + '"]'
+            ht.click_by_xpath(driver,complete_xpath)
+            h1 = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.TAG_NAME, "h1").text)
+            ht.boolean_assert(category == h1,f"Expected {category} in h1 got: {h1}")
+            #Next line would work but datorskärm =! bildskärm....
+            #ht.boolean_assert(category in driver.title, f"Expected {category} in title, got: {driver.title}")
+    def test_6_add_alot_to_cart(self,get_inet_site):
+        driver = get_inet_site
+        ht.click_by_xpath(driver,datorer_xpath_side)
+        buttons = driver.find_elements(By.XPATH,'//button[normalize-space()="Köp"]')
+        amount_in_cart = 0
+        
+        for button in buttons:
+            button.click()
+            amount_in_cart +=1
+            ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[4]")
+
+        current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
+        ht.boolean_assert(len(buttons) == int(current_items_in_cart),f"Expected {len(buttons)} objects in cart, got:{current_items_in_cart}")
+
+
 
         
