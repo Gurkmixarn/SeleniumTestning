@@ -101,7 +101,7 @@ class TestClass:
             ht.click_by_xpath(driver,complete_xpath)
             h1 = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.TAG_NAME, "h1").text)
             ht.boolean_assert(category == h1,f"Expected {category} in h1 got: {h1}")
-            #Next line would work but datorskärm =! bildskärm.......
+            #Next line would work but datorskärm =! bildskärm........
             #ht.boolean_assert(category in driver.title, f"Expected {category} in title, got: {driver.title}")
     def test_6_add_alot_to_cart(self,get_inet_site):
         driver = get_inet_site
