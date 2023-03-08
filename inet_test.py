@@ -11,6 +11,7 @@ INET_SITE = "https://www.inet.se/"
 side_xpath_incomplete = '//span[normalize-space()="'
 datorer_xpath_side = '//span[normalize-space()="Datorer"]'
 number_in_cart = "#cart-button > div > svg > text"
+cart_xpath = "/html/body/div[1]/div[2]/nav/div/div/div[4]"
 
 
 class TestClass:
@@ -103,11 +104,11 @@ class TestClass:
         ht.click_by_xpath(driver,datorer_xpath_side)
         buttons = driver.find_elements(By.XPATH,'//button[normalize-space()="Köp"]')
         amount_in_cart = 0
-        
+
         for button in buttons:
             button.click()
             amount_in_cart +=1
-            ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[4]")
+            ht.click_by_xpath(driver,cart_xpath)
 
         current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
         ht.boolean_assert(len(buttons) == int(current_items_in_cart),f"Expected {len(buttons)} objects in cart, got:{current_items_in_cart}")
