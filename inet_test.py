@@ -1,5 +1,4 @@
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import pytest
 from selenium.webdriver.support.wait import WebDriverWait
@@ -23,9 +22,8 @@ product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","
 class TestClass:
     @pytest.fixture(scope="class")
     def load_driver(self):
-        driver = webdriver.Chrome(ChromeDriverManager().install())
 
-        #driver = webdriver.Chrome()
+        driver = webdriver.Chrome()
 
         yield driver
 
