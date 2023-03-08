@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pytest
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
+
 
 import helper_tests as ht
 
@@ -12,6 +14,9 @@ side_xpath_incomplete = '//span[normalize-space()="'
 datorer_xpath_side = '//span[normalize-space()="Datorer"]'
 number_in_cart = "#cart-button > div > svg > text"
 cart_xpath = "/html/body/div[1]/div[2]/nav/div/div/div[4]"
+search_xpath = "/html/body/div[1]/div[2]/header/div[2]/div/nav/div[2]/input"
+product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","Extern Lagring","Hem/Fritid/Hälsa","Kablar/Adaptrar","Ljud/Bild","Mobiltelefon","Nätverk","Presentkort","Programvara","Skrivare/Scanner","Smarta Hem","Spel/Konsol/VR","Surfplatta"]
+
 
 
 class TestClass:
@@ -91,7 +96,6 @@ class TestClass:
 
     def test_5_all_side_links_product_categories(self,get_inet_site):
         driver = get_inet_site
-        product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","Extern Lagring","Hem/Fritid/Hälsa","Kablar/Adaptrar","Ljud/Bild","Mobiltelefon","Nätverk","Presentkort","Programvara","Skrivare/Scanner","Smarta Hem","Spel/Konsol/VR","Surfplatta"]
         for category in product_types:
             complete_xpath = side_xpath_incomplete + category + '"]'
             ht.click_by_xpath(driver,complete_xpath)
@@ -108,10 +112,22 @@ class TestClass:
         for button in buttons:
             button.click()
             amount_in_cart +=1
-            ht.click_by_xpath(driver,cart_xpath)
+            ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[5]")
 
         current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
         ht.boolean_assert(len(buttons) == int(current_items_in_cart),f"Expected {len(buttons)} objects in cart, got:{current_items_in_cart}")
+    def test_7_search_bar(self,get_inet_site):
+        driver = get_inet_site
+
+        driver.find_element(By.XPATH,search_xpath).send_keys("Datorer")
+        ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/header/div[2]/div/nav/div[2]/div[2]/div[1]/ul/li/a/mark")
+
+        h1 = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.TAG_NAME, "h1"))
+        expected_h1 = "Datorer"
+        ht.boolean_assert(expected_h1 in h1.text, f"Expected {expected_h1} in text for h1, got: {h1.text}")
+
+        expected_title = "Datorer - Köp online här"
+        ht.boolean_assert(expected_title in driver.title, f"Expected {expected_title} in title, got: {driver.title}")
 
 
 
