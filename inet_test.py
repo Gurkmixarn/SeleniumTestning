@@ -1,9 +1,8 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import pytest
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.ui import Select
-import chromedriver_autoinstaller
 
 
 
@@ -24,32 +23,8 @@ product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","
 class TestClass:
     @pytest.fixture(scope="class")
     def load_driver(self):
-        chromedriver_autoinstaller.install()  # Check if the current version of chromedriver exists
-                                      # and if it doesn't exist, download it automatically,
-                                      # then add chromedriver to path
+        driver = webdriver.Chrome(ChromeDriverManager().install())
 
-        chrome_options = webdriver.ChromeOptions()    
-        # Add your options as needed    
-        options = [
-        # Define window size here
-        "--window-size=1200,1200",
-            "--ignore-certificate-errors"
-        
-            #"--headless",
-            #"--disable-gpu",
-            #"--window-size=1920,1200",
-            #"--ignore-certificate-errors",
-            #"--disable-extensions",
-            #"--no-sandbox",
-            #"--disable-dev-shm-usage",
-            #'--remote-debugging-port=9222'
-        ]
-
-        for option in options:
-            chrome_options.add_argument(option)
-
-            
-        driver = webdriver.Chrome(options = chrome_options)
         #driver = webdriver.Chrome()
 
         yield driver
