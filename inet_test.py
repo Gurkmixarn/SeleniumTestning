@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pytest
 from selenium.webdriver.support.wait import WebDriverWait
+import chromedriver_autoinstaller
 
 
 
@@ -22,6 +23,7 @@ product_types = ["Bildskärm","Datorer","Dator­komponenter","Datortillbehör","
 class TestClass:
     @pytest.fixture(scope="class")
     def load_driver(self):
+        chromedriver_autoinstaller.install()
 
         driver = webdriver.Chrome()
 
