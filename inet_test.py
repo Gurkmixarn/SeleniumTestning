@@ -34,6 +34,7 @@ class TestClass:
         yield driver
 
         print('RUN CLASS TEARDOWN')
+        driver.delete_all_cookies()
 
         driver.quit()
 
@@ -58,7 +59,6 @@ class TestClass:
 
         print('RUN TEST TEARDOWN')
 
-        driver.delete_all_cookies()
         
     def test_1_assert_url_homepage(self, get_inet_site):
         driver = get_inet_site
@@ -111,7 +111,6 @@ class TestClass:
     def test_6_add_alot_to_cart(self,get_inet_site):
         driver = get_inet_site
         ht.click_by_xpath(driver,datorer_xpath_side)
-        ht.click_by_xpath(driver,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[7]/a")
         buttons = driver.find_elements(By.XPATH,'//button[normalize-space()="Köp"]')
         amount_in_cart = 0
 
