@@ -26,6 +26,8 @@ class TestClass:
     def load_driver(self):
         
         chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("window-size=1920,1080")
         driver = webdriver.Chrome(options=chrome_options)
         #driver = webdriver.Chrome()
 
@@ -42,7 +44,7 @@ class TestClass:
         driver.delete_all_cookies()
 
         driver.get(INET_SITE)
-        driver.maximize_window()
+        #driver.maximize_window()
 
         #cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div/button[1]")
         #cookies_button.click()
@@ -109,6 +111,7 @@ class TestClass:
     def test_6_add_alot_to_cart(self,get_inet_site):
         driver = get_inet_site
         ht.click_by_xpath(driver,datorer_xpath_side)
+        ht.click_by_xpath(driver,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[7]/a")
         buttons = driver.find_elements(By.XPATH,'//button[normalize-space()="Köp"]')
         amount_in_cart = 0
 
