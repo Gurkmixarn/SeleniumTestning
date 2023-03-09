@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pytest
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.options import Options
+
 
 
 
@@ -23,8 +25,10 @@ class TestClass:
     @pytest.fixture(scope="class")
     def load_driver(self):
         
-
-        driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        driver = webdriver.Chrome(options=chrome_options)
+        #driver = webdriver.Chrome()
 
         yield driver
 
