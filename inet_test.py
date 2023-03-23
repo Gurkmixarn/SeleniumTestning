@@ -4,9 +4,6 @@ import pytest
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 
-
-
-
 import helper_tests as ht
 
 INET_SITE = "https://www.inet.se/"
@@ -45,7 +42,6 @@ class TestClass:
         driver.delete_all_cookies()
 
         driver.get(INET_SITE)
-        #driver.maximize_window()
 
         #cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div/button[1]")
         #cookies_button.click()
@@ -83,7 +79,6 @@ class TestClass:
 
         ht.click_by_css(driver,"[aria-label='expandera kategorin Datorer']")
         ht.click_by_css(driver,"[aria-label='expandera kategorin Bärbar dator']")
-        ht.click_by_css(driver,"[aria-label='expandera kategorin Chromebook']")
         ht.click_by_css(driver,"[aria-label='expandera kategorin Chromebook']")
         ht.click_by_xpath(driver,"/html/body/div[1]/div[3]/div/div/div[1]/div/div[2]/ol/li[3]/div[2]/div/ol/li[1]/div[2]/div/ol/li[1]/div[2]/div/ol/li/a")
         h1 = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.TAG_NAME, "h1"))
@@ -133,6 +128,22 @@ class TestClass:
 
         expected_title = "Datorer - Köp online här"
         ht.boolean_assert(expected_title in driver.title, f"Expected {expected_title} in title, got: {driver.title}")
+    def test_8_right_item_in_cart(self,get_inet_site):
+        driver = get_inet_site
+
+        ht.click_by_xpath(driver,datorer_xpath_side)
+        product_name = driver.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[6]/div/div/div[1]/div[2]/a/h3").text
+        product_price = driver.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[6]/div/div/div[1]/div[2]/div/div[1]/div/div[2]/div/span").text
+        ht.click_by_xpath(driver,'//button[normalize-space()="Köp"]')
+        WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/div[1]/ul/li/div/article/div[1]/div[1]"))
+        ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/a")
+        product_name_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div[2]/div/div/div/ul/li/div/article/div[1]/div[1]/a")).text
+        product_price_cart = driver.find_element(By.XPATH,"/html/body/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div[2]/div/div/div/ul/li/div/article/div[3]/span/span/span").text
+        ht.boolean_assert(product_name == product_name_cart,f"Expected {product_name} and {product_name_cart} to match.")
+        ht.boolean_assert(product_price == product_price_cart,f"Expected {product_price} and {product_price_cart} to match.")
+
+
+        
 
 
 
