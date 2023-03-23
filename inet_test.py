@@ -60,7 +60,7 @@ class TestClass:
         driver = get_inet_site
 
         ht.boolean_assert("https://www.inet.se/" in driver.current_url, f"Expected inet in url, got: {driver.current_url}")
-        ht.boolean_assert("För tekniken vi älskar - Inet.se" in driver.title,f"Expected Inet.se in title got:{driver.title}")
+        ht.boolean_assert("För tekniken vi älskar - Inet.se" in driver.title,f"Expected För tekniken vi älskar - Inet.se in title got:{driver.title}")
     
     def test_2_datorer_tab(self, get_inet_site):
         driver = get_inet_site
@@ -116,7 +116,7 @@ class TestClass:
 
         current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
         ht.boolean_assert(len(buttons) == int(current_items_in_cart),f"Expected {len(buttons)} objects in cart, got:{current_items_in_cart}")
-    def test_7_search_bar(self,get_inet_site):
+    def test_7_search_bar_category(self,get_inet_site):
         driver = get_inet_site
 
         driver.find_element(By.XPATH,search_xpath).send_keys("Datorer")
@@ -128,6 +128,7 @@ class TestClass:
 
         expected_title = "Datorer - Köp online här"
         ht.boolean_assert(expected_title in driver.title, f"Expected {expected_title} in title, got: {driver.title}")
+
     def test_8_right_item_in_cart(self,get_inet_site):
         driver = get_inet_site
 
@@ -143,6 +144,7 @@ class TestClass:
         product_price_numbers = ht.remove_non_numbers(product_price)
         product_price_cart_numbers = ht.remove_non_numbers(product_price_cart)
         ht.boolean_assert(product_price_numbers == product_price_cart_numbers,f"Expected {product_price_numbers} and {product_price_cart_numbers} to match.")
+
     def test_9_empty_cart(self,get_inet_site):
         driver = get_inet_site
         ht.click_by_xpath(driver,datorer_xpath_side)
@@ -151,6 +153,15 @@ class TestClass:
         ht.click_by_xpath(driver,'//button[normalize-space()="Töm"]')
         result_text = driver.find_element(By.XPATH,"/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/p").text
         ht.boolean_assert(result_text == "Din kundvagn är tom",f"Expected Din kundvagn är tom, got {result_text}")
+        
+    def test_10_search_specific_product(self,get_inet_site):
+        driver = get_inet_site
+        product = "AMD Radeon RX 6950 XT MBA"
+        driver.find_element(By.XPATH,search_xpath).send_keys(product)
+        ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/header/div[2]/div/nav/div[2]/div[2]/ul/li/a")
+        h1 = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.TAG_NAME, "h1")).text
+        ht.boolean_assert(h1 == product,f"Expected {h1} to match {product}")
+
 
 
 
