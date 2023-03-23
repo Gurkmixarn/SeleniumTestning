@@ -140,7 +140,9 @@ class TestClass:
         product_name_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div[2]/div/div/div/ul/li/div/article/div[1]/div[1]/a")).text
         product_price_cart = driver.find_element(By.XPATH,"/html/body/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div[2]/div/div/div/ul/li/div/article/div[3]/span/span/span").text
         ht.boolean_assert(product_name == product_name_cart,f"Expected {product_name} and {product_name_cart} to match.")
-        ht.boolean_assert(product_price == product_price_cart,f"Expected {product_price} and {product_price_cart} to match.")
+        product_price_numbers = ht.remove_non_numbers(product_price)
+        product_price_cart_numbers = ht.remove_non_numbers(product_price_cart)
+        ht.boolean_assert(product_price_numbers == product_price_cart_numbers,f"Expected {product_price_numbers} and {product_price_cart_numbers} to match.")
 
 
         
