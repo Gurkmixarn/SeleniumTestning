@@ -143,6 +143,15 @@ class TestClass:
         product_price_numbers = ht.remove_non_numbers(product_price)
         product_price_cart_numbers = ht.remove_non_numbers(product_price_cart)
         ht.boolean_assert(product_price_numbers == product_price_cart_numbers,f"Expected {product_price_numbers} and {product_price_cart_numbers} to match.")
+    def test_9_empty_cart(self,get_inet_site):
+        driver = get_inet_site
+        ht.click_by_xpath(driver,datorer_xpath_side)
+        ht.click_by_xpath(driver,'//button[normalize-space()="Köp"]')
+        driver.find_element(By.CLASS_NAME,"fa-trash").click()
+        ht.click_by_xpath(driver,'//button[normalize-space()="Töm"]')
+        result_text = driver.find_element(By.XPATH,"/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/p").text
+        ht.boolean_assert(result_text == "Din kundvagn är tom",f"Expected Din kundvagn är tom, got {result_text}")
+
 
 
         
