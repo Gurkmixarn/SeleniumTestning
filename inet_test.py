@@ -7,8 +7,6 @@ from selenium.webdriver.chrome.options import Options
 import helper_tests as ht
 
 INET_SITE = "https://www.inet.se/"
-
-#datorer_xpath_side = '//*[@id="react-root"]/div[3]/div/div/div[2]/div[2]/div[3]/div/a[1]/div'
 side_xpath_incomplete = '//span[normalize-space()="'
 datorer_xpath_side = '//span[normalize-space()="Datorer"]'
 number_in_cart = "#cart-button > div > svg > text"
@@ -42,9 +40,6 @@ class TestClass:
         driver.delete_all_cookies()
 
         driver.get(INET_SITE)
-
-        #cookies_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div/button[1]")
-        #cookies_button.click()
         try:
             ht.click_by_xpath(driver,'//button[normalize-space()="Jag förstår"]')
         except:
@@ -107,11 +102,9 @@ class TestClass:
         driver = get_inet_site
         ht.click_by_xpath(driver,datorer_xpath_side)
         buttons = driver.find_elements(By.XPATH,'//button[normalize-space()="Köp"]')
-        amount_in_cart = 0
 
         for button in buttons:
             button.click()
-            amount_in_cart +=1
             ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[5]")
 
         current_items_in_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.CSS_SELECTOR, number_in_cart).text)
@@ -135,7 +128,7 @@ class TestClass:
         ht.click_by_xpath(driver,datorer_xpath_side)
         product_name = driver.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[6]/div/div/div[1]/div[2]/a/h3").text
         product_price = driver.find_element(By.XPATH,"/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[6]/div/div/div[1]/div[2]/div/div[1]/div/div[2]/div/span").text
-        ht.click_by_xpath(driver,'//button[normalize-space()="Köp"]')
+        ht.click_by_xpath(driver,'/html/body/div[1]/div[3]/div/div/div[2]/div[2]/section/div[6]/div/div/div[1]/div[2]/div/div[2]/button')
         WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/div[1]/ul/li/div/article/div[1]/div[1]"))
         ht.click_by_xpath(driver,"/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/a")
         product_name_cart = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div[2]/div/div/div/ul/li/div/article/div[1]/div[1]/a")).text
