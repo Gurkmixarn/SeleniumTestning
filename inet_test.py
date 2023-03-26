@@ -144,7 +144,7 @@ class TestClass:
         ht.click_by_xpath(driver,'//button[normalize-space()="Köp"]')
         driver.find_element(By.CLASS_NAME,"fa-trash").click()
         ht.click_by_xpath(driver,'//button[normalize-space()="Töm"]')
-        result_text = driver.find_element(By.XPATH,"/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/p").text
+        result_text = WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.XPATH, "/html/body/div[1]/div[2]/nav/div/div/div[6]/div/div/div/p")).text
         ht.boolean_assert(result_text == "Din kundvagn är tom",f"Expected Din kundvagn är tom, got {result_text}")
 
     def test_10_search_specific_product(self,get_inet_site):
